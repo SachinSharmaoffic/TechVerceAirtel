@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://offer.cashduniya.in/Offer/?offer=614776385 -->
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offer</title>
+<link rel="stylesheet" href="./Offer_files/style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</script>
+<style>
+    .suggestions {
+        border: 1px solid #ccc;
+        display: none;
+        position: absolute;
+        background-color: white;
+        z-index: 99;
+        max-height: 150px;
+        max-width: 255px;
+        overflow-y: auto;
+        width: 255px;
+        font-weight: 300;
+        transform: translate(0, 38px);
+
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .suggestions.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .suggestion-item {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .suggestion-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    div.g-recaptcha {
+        margin: 0 auto;
+        width: fit-content;
+    }
+</style>
+
+<style>
+    .btn-whatsapp-pulse {
+        background: #25d366;
+        color: white;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-size: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 0;
+        height: 0;
+        padding: 35px;
+        text-decoration: none;
+        border-radius: 50%;
+        animation-name: pulse;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-out;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+        }
+
+        80% {
+            box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+        }
+    }
+
+    .btn-whatsapp-pulse-border {
+        bottom: 120px;
+        right: 20px;
+        animation-play-state: paused;
+    }
+
+    .btn-whatsapp-pulse-border::before {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        padding: 25px;
+        border: 5px solid #25d366;
+        opacity: 0.75;
+        animation-name: pulse-border;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-out;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes pulse-border {
+        0% {
+            padding: 25px;
+            opacity: 0.75;
+        }
+
+        75% {
+            padding: 50px;
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .notification {
+        display: flex;
+        flex-direction: column;
+        isolation: isolate;
+        position: relative;
+        /*width: 18rem;*/
+        height: 6rem;
+        /*background: #29292c;*/
+        border-radius: 1rem;
+        overflow: hidden;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 16px;
+        --gradient: linear-gradient(to bottom, #2eadff, #3d83ff, #7e61ff);
+        --color: #32a6ff;
+        margin-top: 10px;
+    }
+
+    .notification:before {
+        position: absolute;
+        content: "";
+        inset: 0.0625rem;
+        border-radius: 0.9375rem;
+        background: #bdc3c7;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #bdc3c7, #2c3e50);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #bdc3c7, #2c3e50);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        z-index: 2
+    }
+
+    .notification:after {
+        position: absolute;
+        content: "";
+        width: 0.25rem;
+        inset: 0.65rem auto 0.65rem 0.5rem;
+        border-radius: 0.125rem;
+        background: var(--gradient);
+        transition: transform 300ms ease;
+        z-index: 4;
+    }
+
+    .notification:hover:after {
+        transform: translateX(0.15rem)
+    }
+
+    .notititle {
+        color: var(--color);
+        padding: 0.65rem 0.25rem 0.4rem 1.25rem;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: transform 300ms ease;
+        z-index: 5;
+    }
+
+    .notification:hover .notititle {
+        transform: translateX(0.15rem)
+    }
+
+    .notibody {
+        color: #fff;
+        padding: 0 1.25rem;
+        transition: transform 300ms ease;
+        z-index: 5;
+    }
+
+    .notification:hover .notibody {
+        transform: translateX(0.25rem)
+    }
+
+    .notiglow,
+    .notiborderglow {
+        position: absolute;
+        width: 20rem;
+        height: 20rem;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle closest-side at center, white, transparent);
+        opacity: 0;
+        transition: opacity 300ms ease;
+    }
+
+    .notiglow {
+        z-index: 3;
+    }
+
+    .notiborderglow {
+        z-index: 1;
+    }
+
+
+    .note {
+        color: var(--color);
+        position: fixed;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 0.9rem;
+        width: 75%;
+    }
+
+
+
+    .arrow {
+        transform: rotate(270deg);
+        cursor: pointer;
+    }
+
+    .arrow span {
+        display: block;
+        width: 15px;
+        height: 15px;
+
+        border-bottom: 5px solid #fc466b;
+        border-right: 5px solid #3f5efb;
+        transform: rotate(45deg);
+        margin: -15px;
+        animation: animate28797 2s infinite;
+    }
+
+    .arrow span:nth-child(2) {
+        animation-delay: -0.2s;
+    }
+
+    .arrow span:nth-child(3) {
+        animation-delay: -0.4s;
+    }
+
+    @keyframes animate28797 {
+        0% {
+            opacity: 0;
+            transform: rotate(45deg) translate(-20px, -20px);
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+    }
+
+    .cardx {
+        --white: hsl(0, 0%, 100%);
+        --black: hsl(240, 15%, 9%);
+        --paragraph: hsl(0, 0%, 83%);
+        --line: hsl(240, 9%, 17%);
+        --primary: hsl(266, 92%, 58%);
+
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        padding: 1rem;
+        /*width: 19rem;*/
+        background-color: #e84393;
+        background-image: linear-gradient(315deg, #e84393 0%, #000000 74%);
+
+        border-radius: 1rem;
+        /*box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;*/
+    }
+
+    .cardx .cardx__border {
+        overflow: hidden;
+        pointer-events: none;
+
+        position: absolute;
+        z-index: -10;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: calc(100% + 2px);
+        height: calc(100% + 2px);
+        background-image: linear-gradient(0deg,
+                hsl(0, 0%, 100%) -50%,
+                hsl(0, 0%, 40%) 100%);
+
+        border-radius: 1rem;
+    }
+
+    .cardx .cardx__border::before {
+        content: "";
+        pointer-events: none;
+
+        position: fixed;
+        z-index: 200;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%), rotate(0deg);
+        transform-origin: left;
+
+        width: 200%;
+        height: 10rem;
+        background-image: linear-gradient(0deg,
+                hsla(0, 0%, 100%, 0) 0%,
+                hsl(277, 95%, 60%) 40%,
+                hsl(277, 95%, 60%) 60%,
+                hsla(0, 0%, 40%, 0) 100%);
+
+        animation: rotate 8s linear infinite;
+    }
+
+    @keyframes rotate {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .cardx .cardx_title__container .cardx_title {
+        font-size: 1rem;
+        color: var(--white);
+    }
+
+    .cardx .cardx_title__container .cardx_paragraph {
+
+
+
+        font-size: 0.5rem;
+        color: var(--paragraph);
+    }
+
+    .cardx .line {
+        width: 100%;
+        height: 0.1rem;
+        background-color: #fff;
+
+        border: none;
+    }
+
+    .cardx .cardx__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-left: -39px;
+    }
+
+    .cardx .cardx__list .cardx__list_item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .cardx .cardx__list .cardx__list_item .check {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 1rem;
+        height: 1rem;
+        background-color: #e84393;
+        padding: 10px;
+        color: #fff;
+
+        border-radius: 50%;
+    }
+
+
+    .cardx .cardx__list .cardx__list_item .list_text {
+        font-size: 0.85rem;
+        color: var(--white);
+    }
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+</style>
+<link rel="stylesheet" href="./Offer_files/font-awesome.min.css">
+
+
+</head>
+
+<body>
+
+
+
+
+    <div class="none" id="redirect">
+        <div class="like-dislike-container">
+
+            <p class="text-content">Redirecting.....</p>
+            <div class="icons-box">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-3">
+            <section class="info-section">
+                <div class="background-design">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="left-side">
+                    <div class="weather"></div>
+                    <div class="temperature">
+                        <img src="./Offer_files/ai.png" width="100%" height="100%" style="border-radius:10px;">
+                    </div>
+                    <div class="range"></div>
+                </div>
+                <div class="right-side" style="align-self: self-end;">
+                    <div>
+                        <div class="hour">Airtel Payment <br>Bank</div>
+                        <div class="date" style="align-self: self-end;">Create Account</div>
+                    </div>
+                    <div class="city">₹ 80 /-</div>
+                </div>
+            </section>
+        </div>
+
+        <form id="upiForm">
+            <div class="upi-fields">
+                <div class="InputContainer">
+
+                    <input type="text" name="upi_address" class="input" id="upi_address"
+                        placeholder="Enter your UPI Address" required>
+                    <div class="border"></div>
+                    <div class="border"></div>
+
+
+                    <button type="button" class="micButton">
+                        <img class="micIcon" src="./Offer_files/upi-icon.webp">
+                    </button>
+                </div>
+                <div class="suggestions" id="suggestions"></div>
+
+                <span id="upi_error" class="error-message" style="display:none;">Please enter a valid UPI address
+                    that includes "@".</span>
+                <button type="submit" class="button" id="submit_btn">
+                    Apply Now
+                    <svg fill="currentColor" viewBox="0 0 24 24" class="icon" id="icon">
+                        <path clip-rule="evenodd"
+                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+                            fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="loader" id="loader" style="display:none;">Redirecting...</span> <!-- Loader element -->
+                </button>
+
+
+            </div>
+
+        </form>
+        <div class="cardx">
+            <div class="cardx__border"></div>
+            <div class="cardx_title__container">
+                <span class="cardx_title">Not Redirected or stuck somewhere ?</span>
+            </div>
+            <hr class="line">
+            <!-- <hr class="line">  -->
+            <ul class="cardx__list">
+                <li class="cardx__list_item">
+                    <!-- <span class="check">1</span> -->
+                    <span class="list_text">Please Take screenshot and share with us on Whatsapp button in bottom</span>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="cardx" style="margin-top: 10px;">
+            <div class="cardx__border"></div>
+            <div class="cardx_title__container">
+                <span class="cardx_title">Terms &amp; Conditions</span>
+            </div>
+            <hr class="line">
+            <ul class="cardx__list">
+                <li class="cardx__list_item">
+                    <span class="check">1</span>
+                    <span class="list_text">Enter UPI &amp; Hit Submit Button</span>
+                </li>
+                <li class="cardx__list_item">
+                    <span class="check">2</span>
+                    <span class="list_text">You Will Be Redirected To Partner Website</span>
+                </li>
+                <li class="cardx__list_item">
+                    <span class="check">3</span>
+                    <span class="list_text">Complete Task &amp; Earn Cashback</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'
+        target="_blank"></script>
+    <script>
+        var wa_btnSetting = { "btnColor": "#16BE45", "ctaText": "WhatsApp Us", "cornerRadius": 40, "marginBottom": 20, "marginLeft": 20, "marginRight": 20, "btnPosition": "right", "whatsAppNumber": "919540822625", "welcomeMessage": "Hey TechVerse Team, I am stuck somewhere please help", "zIndex": 999999, "btnColorScheme": "light" };
+        window.onload = () => {
+            _waEmbed(wa_btnSetting);
+        };
+    </script>
+
+    </a>
+    </div>
+    <script>
+        document.getElementById('upiForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const upiAddress = document.getElementById('upi_address').value;
+            const submitBtn = document.getElementById('submit_btn');
+            const icon = document.getElementById('icon');
+            const loader = document.getElementById('loader');
+            const errorSpan = document.getElementById('upi_error');
+
+            // Reset error message visibility
+            errorSpan.style.display = 'none';
+
+            // Check if UPI address contains '@'
+            if (!upiAddress.includes('@')) {
+                errorSpan.style.display = 'block'; // Show error message
+                return; // Prevent submission if invalid
+            }
+
+            // Hide the icon and change the text to Loading...
+            icon.style.display = 'none'; // Hide the SVG icon
+            submitBtn.innerHTML = 'Redirecting...'; // Change button text to "Loading..."
+
+            // Disable the button to prevent re-clicking
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ upiAddress }),
+                });
+
+                const result = await response.json();
+                // alert(result.message); // Show the message to the user.
+
+                if (response.ok && result.redirectUrl) {
+                    setTimeout(() => {
+                        window.location.href = result.redirectUrl;
+                    }, 2000); // Redirect after a delay
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+    </script>
+
+
+    <div class="waveDiv animation-wave">
+        <div class="wave-content-wrapper first-wave">
+            <div class="wave-image first-image" style="background-image: url(./Offer_files/first-wave.png)"></div>
+        </div>
+        <div class="wave-content-wrapper second-wave">
+            <div class="wave-image second-image" style="background-image: url(./Offer_files/second-wave.png)"></div>
+        </div>
+        <div class="wave-content-wrapper third-wave">
+            <div class="wave-image third-image" style="background-image: url(./Offer_files/third-wave.png)"></div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
