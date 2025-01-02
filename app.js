@@ -14,8 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static HTML file
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Load service account credentials
-const credentials = JSON.parse(fs.readFileSync('./steel-aria-446606-r3-aa32625c39f2.json'));
+// Load service account credentials from environment variables
+const credentials = {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')  // Ensure proper line breaks in private key
+};
 
 // Set up Google Sheets API client
 const auth = new google.auth.JWT(
