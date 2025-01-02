@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const axios = require('axios');
-const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -10,9 +9,6 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Serve static HTML file
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Load service account credentials from environment variables
 const credentials = {
@@ -68,7 +64,7 @@ app.post('/submit', async (req, res) => {
             },
         });
 
-        // Respond with success message and redirect URL
+        // Respond with success message
         res.status(200).json({
             message: 'Data submitted successfully',
             redirectUrl: 'https://mdeal.in/c_phNFCX686WfF5Vp'  // Send the URL to redirect to
