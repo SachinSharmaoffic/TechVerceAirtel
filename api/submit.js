@@ -18,15 +18,17 @@ const sheets = google.sheets({ version: 'v4', auth });
 
 const SPREADSHEET_ID = '131pPi-WIuwbifJGwBUMeV-fiEtf_DsxvxafieaCCr_U'; // replace with your Google Sheet ID
 const RANGE = 'Sheet1!A:B'; // replace with your desired range
-
 module.exports = async (req, res) => {
     if (req.method === 'POST') {
         try {
             const { upiAddress } = req.body;
 
-            // Capture the IP address using a third-party API
-            const ipResponse = await axios.get('https://api.ipify.org?format=json');
-            const userIP = ipResponse.data.ip;
+            // Get the actual client IP from the request headers (X-Forwarded-For)
+            const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+            // Capture the IP address using a third-party API (optional, but should not be needed now)
+            // const ipResponse = await axios.get('https://api.ipify.org?format=json');
+            // const userIP = ipResponse.data.ip;
 
             // Get current time in IST using toLocaleString with timeZone option
             const istDate = new Date().toLocaleString("en-GB", { timeZone: "Asia/Kolkata" });
@@ -67,3 +69,4 @@ module.exports = async (req, res) => {
         res.status(405).json({ message: 'Method Not Allowed' });
     }
 };
+
