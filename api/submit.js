@@ -18,7 +18,7 @@ const auth = new google.auth.JWT(
 const sheets = google.sheets({ version: 'v4', auth });
 
 const SPREADSHEET_ID = '131pPi-WIuwbifJGwBUMeV-fiEtf_DsxvxafieaCCr_U'; // replace with your Google Sheet ID
-const RANGE = 'Sheet1!A:B'; // replace with your desired range
+const RANGE = 'Sheet1!A:C'; // Updated range to store both IP addresses (IPv4, IPv6)
 
 // Enable CORS
 const corsOptions = {
@@ -33,7 +33,33 @@ module.exports = async (req, res) => {
                 const { upiAddress } = req.body;
 
                 // Get the actual client IP from the request headers (X-Forwarded-For)
-                const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+                const forwardedIP = req.headers['x-forwarded-for']; 
+                const userIP = req.connection.remoteAddress;
+
+                // Extract IPv4 and IPv6 addresses from the forwarded IP
+                let ipv4Address = '';
+                let ipv6Address = '';
+                
+                if (forwardedIP) {
+                    const ipAddresses = forwardedIP.split(','); // Split in case of multiple forwarded IPs
+                    // Check for IPv6 and IPv4 addresses
+                    ipAddresses.forEach(ip => {
+                        if (ip.includes(':')) {
+                            ipv6Address = ip.trim(); // This is an IPv6 address
+                        } else {
+                            ipv4Address = ip.trim(); // This is an IPv4 address
+                        }
+                    });
+                }
+
+                // Fallback to user IP if forwarded IP is not available
+                if (!ipv4Address && !ipv6Address) {
+                    if (userIP.includes(':')) {
+                        ipv6Address = userIP; // IPv6 fallback
+                    } else {
+                        ipv4Address = userIP; // IPv4 fallback
+                    }
+                }
 
                 // Get current time in IST using toLocaleString with timeZone option
                 const istDate = new Date().toLocaleString("en-GB", { timeZone: "Asia/Kolkata" });
@@ -51,13 +77,13 @@ module.exports = async (req, res) => {
                 // Final formatted timestamp in IST with milliseconds
                 const timestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}+05:30`;
 
-                // Append IP, UPI address, and timestamp to Google Sheets
+                // Append both IPs, UPI address, and timestamp to Google Sheets
                 await sheets.spreadsheets.values.append({
                     spreadsheetId: SPREADSHEET_ID,
                     range: RANGE,
                     valueInputOption: 'RAW',
                     resource: {
-                        values: [[userIP, upiAddress, timestamp]],
+                        values: [[ipv4Address, ipv6Address, upiAddress, timestamp]],
                     },
                 });
 
